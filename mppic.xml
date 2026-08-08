@@ -1,0 +1,19 @@
+<library path="lib/libmppi_controller_cuda">
+  <class  name="mppi_controller_cuda/MPPIControllerCUDA" 
+          type="mppi_controller_cuda::MPPIControllerCUDA" 
+          base_class_type="nav_core::BaseLocalPlanner">
+    <description>
+      MPPI controller for move_base ROS
+    </description>
+  </class>
+
+
+  <class  name="mppi_controller_cuda/MPPIControllerCUDA" 
+          type="mppi_controller_cuda::MPPIControllerCUDA" 
+          base_class_type="mbf_costmap_core::CostmapController">
+    <description>
+      MPPI controller for move_base_flex ROS.
+    </description>
+  </class>
+
+</library>
