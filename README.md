@@ -2,6 +2,8 @@
 
 CUDA version of [mppi_controller_ros](https://github.com/datledoan/mppi_controller_ros), a ROS1 port of [nav2_mppi_controller](https://github.com/ros-navigation/navigation2/tree/main/nav2_mppi_controller), based on the [MPPI-Generic](https://github.com/ACDSLab/MPPI-Generic). Applicable for both [move_base](http://wiki.ros.org/move_base) and [move_base_flex](http://wiki.ros.org/move_base_flex).
 
+>For ROS2, see the [`jazzy`](https://github.com/datledoan/mppi_controller_cuda/tree/jazzy) branch.
+
 # Installation
 
 Requires NVIDIA GPU + CUDA toolkit. Tested with ROS Noetic, Ubuntu 20.04, CUDA 12.4, an RTX 2050 (compute capability 8.6).
