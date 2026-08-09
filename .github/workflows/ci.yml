@@ -1,0 +1,59 @@
+name: ROS CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ros_distro: [jazzy]
+    container:
+      image: osrf/ros:${{ matrix.ros_distro }}-desktop-full
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install ROS build tools
+      run: |
+        apt-get update
+        apt-get install -y python3-colcon-common-extensions python3-rosdep wget
+        if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then rosdep init; fi
+        rosdep update
+
+    - name: Install CUDA toolkit
+      run: |
+        wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
+        dpkg -i cuda-keyring_1.1-1_all.deb
+        apt-get update
+        apt-get install -y cuda-toolkit-12-6
+        echo "/usr/local/cuda-12.6/bin" >> "$GITHUB_PATH"
+        echo "CUDA_HOME=/usr/local/cuda-12.6" >> "$GITHUB_ENV"
+        echo "LD_LIBRARY_PATH=/usr/local/cuda-12.6/lib64" >> "$GITHUB_ENV"
+
+    # Create workspace and clone the repository
+    - name: Create workspace
+      run: |
+        mkdir -p /ros_ws/src/mppi_controller_cuda
+        cp -r $GITHUB_WORKSPACE/. /ros_ws/src/mppi_controller_cuda/
+
+    - name: Install project dependencies
+      working-directory: /ros_ws
+      run: |
+        rosdep install --from-paths src --ignore-src -r -y
+
+    # Build packages
+    - name: Build
+      working-directory: /ros_ws
+      shell: bash
+      run: |
+        source /opt/ros/${{ matrix.ros_distro }}/setup.bash
+        export PATH="/usr/local/cuda-12.6/bin:$PATH"
+        colcon build --packages-select mppi_controller_cuda --event-handlers console_direct+

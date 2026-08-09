@@ -1,0 +1,9 @@
+<library path="mppi_controller_cuda">
+  <class name="mppi_controller_cuda::MPPIControllerCUDA"
+         type="mppi_controller_cuda::MPPIControllerCUDA"
+         base_class_type="nav2_core::Controller">
+    <description>
+      GPU-accelerated MPPI controller for ROS.
+    </description>
+  </class>
+</library>
