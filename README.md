@@ -21,6 +21,8 @@ Requires NVIDIA GPU + CUDA toolkit. Tested with ROS Noetic, Ubuntu 20.04, CUDA 1
 
 # Result
 ## Demo
+Run the example with [turtlebot3](https://github.com/datledoan/turtlebot3)
+
 ![](media/mppi_demo.gif)
 ## Benchmark
 Benchmark with CPU version [mppi_controller_ros](https://github.com/datledoan/mppi_controller_ros).
