@@ -6,7 +6,7 @@ CUDA-accelerated MPPI controller based on [nav2_mppi_controller](https://github.
 
 # Installation
 
-Requires an NVIDIA GPU + CUDA toolkit. Tested with ROS2 Jazzy, Ubuntu 24.04, CUDA 12.0, an RTX 2050 (compute capability 8.6).
+Requires an NVIDIA GPU + CUDA toolkit. Tested with ROS2 Jazzy, Ubuntu 24.04, CUDA 12.0, CPU AMD Ryzen 5 5500H (8 threads) + RTX 2050 (compute capability 8.6).
 
 * Install the CUDA toolkit (see [NVIDIA's install guide](https://developer.nvidia.com/cuda-downloads)).
 * Clone and build:
@@ -38,7 +38,18 @@ See [`params/mppi_controller_params.yaml`](params/mppi_controller_params.yaml) f
 Example with turtlebot3 burger: [turtlebot3](https://github.com/datledoan/turtlebot3.git)
 
 # Result
+## Demo
 ![](media/mppi_demo.gif)
+## Benchmark
+
+Real-run `controller_server` CPU usage while actually driving the robot in Gazebo:
+
+| Controller | CPU usage (of 1 core) |
+|---|---|
+| nav2_mppi_controller (CPU) | ~45% |
+| mppi_controller_cuda (GPU) | ~36% |
+
+~20% less `controller_server` CPU load with the GPU plugin (RTX 2050).
 
 # Reference
 - [nav2_mppi_controller](https://github.com/ros-navigation/navigation2/tree/main/nav2_mppi_controller)
