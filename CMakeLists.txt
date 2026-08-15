@@ -124,6 +124,47 @@ ament_export_dependencies(
   Eigen3
 )
 
+# Build the benchmark binaries
+# Usage: colcon build --packages-select mppi_controller_cuda --cmake-args -DMPPI_BUILD_BENCHMARKS=ON
+option(MPPI_BUILD_BENCHMARKS "Build the benchmark/{cuda,cpu}_sweep_bench_* executables" OFF)
+if(MPPI_BUILD_BENCHMARKS)
+  set(MPPI_BENCH_ROLLOUT_COUNTS 256 512 1024 2048 4096 8192 CACHE STRING
+      "Rollout counts (NUM_ROLLOUTS) to build a benchmark/cuda_sweep_bench_* binary for")
+  foreach(N ${MPPI_BENCH_ROLLOUT_COUNTS})
+    add_executable(cuda_sweep_bench_${N}
+      benchmark/sweep_bench.cu
+      src/core/mppi_common.cu
+      src/controller/mppi_controller.cu
+    )
+    target_include_directories(cuda_sweep_bench_${N} PRIVATE
+      "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    )
+    target_compile_definitions(cuda_sweep_bench_${N} PRIVATE MPPI_NUM_ROLLOUTS=${N})
+    set_target_properties(cuda_sweep_bench_${N} PROPERTIES
+      CUDA_SEPARABLE_COMPILATION OFF
+      POSITION_INDEPENDENT_CODE ON
+    )
+    target_link_libraries(cuda_sweep_bench_${N}
+      CUDA::cudart
+      CUDA::curand
+      CUDA::cufft
+    )
+  endforeach()
+
+  # CPU benchmark binary
+  find_package(nav2_mppi_controller REQUIRED)
+  add_executable(cpu_sweep_bench benchmark/cpu_sweep_bench.cpp)
+  ament_target_dependencies(cpu_sweep_bench
+    rclcpp
+    rclcpp_lifecycle
+    nav2_core
+    nav2_costmap_2d
+    nav2_mppi_controller
+    geometry_msgs
+    nav_msgs
+  )
+endif()
+
 pluginlib_export_plugin_description_file(nav2_core mppic.xml)
 
 ament_package()

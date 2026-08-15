@@ -51,6 +51,10 @@ Real-run `controller_server` CPU usage while actually driving the robot in Gazeb
 
 ~20% less `controller_server` CPU load with the GPU plugin (RTX 2050).
 
+Per-call compute time (`Optimizer::evalControl()`/`Controller::computeControl()` -- see [`benchmark/`](benchmark/)), swept across `batch_size`/`time_steps`:
+
+![](media/benchmark_sweep.png)
+
 # Reference
 - [nav2_mppi_controller](https://github.com/ros-navigation/navigation2/tree/main/nav2_mppi_controller)
 - [MPPI-Generic](https://github.com/ACDSLab/MPPI-Generic)
