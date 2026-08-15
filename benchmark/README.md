@@ -40,3 +40,17 @@ CSV: `batch_size,time_steps,wall_mean_ms,wall_median_ms,wall_p95_ms,wall_max_ms,
 - `cpu_mean_ms`: process CPU-time (`getrusage`) for that call — close to
   `wall_mean_ms` because `cudaStreamSynchronize` spin-waits rather than
   sleeping, not because the CPU is doing the GPU's math.
+
+## Live CPU usage
+
+To see actual %CPU (of one core) while
+move_base_flex is really running:
+
+```bash
+python3 src/mppi_controller_cuda/benchmark/monitor_resource_usage.py --name mbf_costmap_nav
+```
+
+Samples `/proc/<pid>/stat` every second (matches the move_base_flex binary
+by name, or pass `--pid <PID>` directly) and prints a live mean/median/p95/max
+summary on exit (Ctrl+C, or `--duration <sec>`). Note this measures the
+whole move_base_flex process (costmap, global planner, TF, etc. included).
