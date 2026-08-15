@@ -35,6 +35,7 @@ controller_server:
 ```
 
 See [`params/mppi_controller_params.yaml`](params/mppi_controller_params.yaml) for the full list with defaults.
+Example with turtlebot3 burger: [turtlebot3](https://github.com/datledoan/turtlebot3.git)
 
 # Result
 ![](media/mppi_demo.gif)
