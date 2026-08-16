@@ -15,6 +15,13 @@ Flags: `--pid` (target PID), `--name` (regex fallback if no `--pid`), `--interva
 
 Note: measures the whole `controller_server` process (costmap updates etc. included, not just the plugin).
 
+`run_live_cpu_test.sh` automates the above: publishes a goal to `/goal_pose`, finds the `controller_server` PID, and samples it for a fixed window. Nav2 must already be launched (`use_composition:=False`) and localized.
+
+```sh
+bash benchmark/run_live_cpu_test.sh [goal_x] [goal_y] [duration] [interval]
+bash benchmark/run_live_cpu_test.sh 1.76 0.99 10 0.2
+```
+
 ## Sweep benchmark
 
 Per-call time of the rollout optimizer, swept across `batch_size`/`time_steps`. `sweep_bench.cu` (GPU, this plugin) and `cpu_sweep_bench.cpp` (CPU, `nav2_mppi_controller::Optimizer::evalControl()`).

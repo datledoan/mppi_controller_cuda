@@ -69,8 +69,9 @@ SweepPointResult runSweepPoint(
   params.emplace_back(name + ".motion_model", std::string("DiffDrive"));
   params.emplace_back(
     name + ".critics", std::vector<std::string>{
-    "ConstraintCritic", "GoalCritic", "GoalAngleCritic", "PathAlignCritic",
-    "PathFollowCritic", "PathAngleCritic", "PreferForwardCritic"});
+    "ConstraintCritic", "CostCritic", "GoalCritic", "GoalAngleCritic", "ObstaclesCritic",
+    "PathAlignCritic", "PathFollowCritic", "PathAngleCritic", "PreferForwardCritic",
+    "TwirlingCritic", "VelocityDeadbandCritic"});
   params.emplace_back("controller_frequency", 50.0);
   rclcpp::NodeOptions options;
   options.parameter_overrides(params);
