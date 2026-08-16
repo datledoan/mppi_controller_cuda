@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(mppi_controller_cuda)
 
+add_compile_options(-O3)
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag("-mfma" COMPILER_SUPPORTS_FMA)
+if(COMPILER_SUPPORTS_FMA)
+  add_compile_options(-mfma)
+endif()
+list(APPEND CUDA_NVCC_FLAGS -O3)
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++17)
 
