@@ -15,6 +15,31 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
 endif()
 
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag("-mno-avx512f" COMPILER_SUPPORTS_AVX512)
+check_cxx_compiler_flag("-msse4.2" COMPILER_SUPPORTS_SSE4)
+check_cxx_compiler_flag("-mavx2" COMPILER_SUPPORTS_AVX2)
+check_cxx_compiler_flag("-mfma" COMPILER_SUPPORTS_FMA)
+
+if(COMPILER_SUPPORTS_AVX512)
+  add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-mno-avx512f> $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=-mno-avx512f>)
+endif()
+
+if(COMPILER_SUPPORTS_SSE4)
+  add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-msse4.2> $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=-msse4.2>)
+endif()
+
+if(COMPILER_SUPPORTS_AVX2)
+  add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-mavx2> $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=-mavx2>)
+endif()
+
+if(COMPILER_SUPPORTS_FMA)
+  add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-mfma> $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=-mfma>)
+endif()
+
+# If building on the same hardware to be deployed on, try `-march=native`!
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-O3> $<$<COMPILE_LANGUAGE:CUDA>:-O3>)
+
 add_definitions(-DEIGEN_DONT_VECTORIZE -DEIGEN_MAX_ALIGN_BYTES=0)
 
 find_package(ament_cmake REQUIRED)
