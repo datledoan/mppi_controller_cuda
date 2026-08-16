@@ -34,8 +34,8 @@ move_base_flex process, % of one core -- see
 
 | Controller | CPU usage (of 1 core) |
 | --- | --- |
-| mppi_controller_ros (CPU) | ~119% |
-| mppi_controller_cuda (GPU) | ~31% |
+| mppi_controller_ros (CPU) | ~29% |
+| mppi_controller_cuda (GPU) | ~22% |
 
 # Reference
 - [nav2_mppi_controller](https://github.com/ros-navigation/navigation2/tree/main/nav2_mppi_controller)

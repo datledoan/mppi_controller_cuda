@@ -22,10 +22,13 @@ catkin build -j2 mppi_controller_cuda --cmake-args -DMPPI_BUILD_BENCHMARKS=ON -D
 ## Run
 
 ```bash
+cd your_ws
 source devel/setup.bash
 
+bash src/mppi_controller_cuda/benchmark/run_sweep.sh [warmup] [reps] > gpu.csv # all built batch_sizes, merged into one CSV
+# eg: bash src/mppi_controller_cuda/benchmark/run_sweep.sh > gpu.csv
+# or
 rosrun mppi_controller_cuda cuda_sweep_bench_2048 [warmup] [reps]   # defaults 5 30
-bash src/mppi_controller_cuda/benchmark/run_sweep.sh [warmup] [reps]  # all built batch_sizes, merged into one CSV
 ```
 
 `warmup`: calls made but not timed, to let things settle (GPU kernel JIT,
@@ -47,10 +50,6 @@ To see actual %CPU (of one core) while
 move_base_flex is really running:
 
 ```bash
-python3 src/mppi_controller_cuda/benchmark/monitor_resource_usage.py --name mbf_costmap_nav
+pgrep -x mbf_costmap_nav   # find the PID
+python3 src/mppi_controller_cuda/benchmark/monitor_resource_usage.py --pid <PID>
 ```
-
-Samples `/proc/<pid>/stat` every second (matches the move_base_flex binary
-by name, or pass `--pid <PID>` directly) and prints a live mean/median/p95/max
-summary on exit (Ctrl+C, or `--duration <sec>`). Note this measures the
-whole move_base_flex process (costmap, global planner, TF, etc. included).
