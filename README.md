@@ -42,14 +42,18 @@ Example with turtlebot3 burger: [turtlebot3](https://github.com/datledoan/turtle
 ![](media/mppi_demo.gif)
 ## Benchmark
 
-Real-run `controller_server` CPU usage while actually driving the robot in Gazebo:
+Real-run `controller_server` CPU usage while navigating a goal in Gazebo
+(turtlebot3 burger, see [turtlebot3](https://github.com/datledoan/turtlebot3.git)),
+sampled with [`benchmark/run_live_cpu_test.sh`](benchmark/run_live_cpu_test.sh)
+(10s window, 0.2s interval, 5 runs x 50 samples each). Both sides run the
+same critic set/per-rollout compute cost:
 
-| Controller | CPU usage (of 1 core) |
+| Controller | CPU usage (of 1 core, mean ± std across 5 runs) |
 |---|---|
-| nav2_mppi_controller (CPU) | ~45% |
-| mppi_controller_cuda (GPU) | ~36% |
+| nav2_mppi_controller (CPU) | 49.4% ± 1.4 |
+| mppi_controller_cuda (GPU) | 35.7% ± 0.7 |
 
-~20% less `controller_server` CPU load with the GPU plugin (RTX 2050).
+~28% less `controller_server` CPU load with the GPU plugin (RTX 2050).
 
 Per-call compute time (`Optimizer::evalControl()`/`Controller::computeControl()` -- see [`benchmark/`](benchmark/)), swept across `batch_size`/`time_steps`:
 
