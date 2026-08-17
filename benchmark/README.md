@@ -15,6 +15,7 @@ Off by default (a plain `catkin build mppi_controller_cuda` only builds the
 plugin library) -- opt in explicitly:
 
 ```bash
+catkin clean -y mppi_controller_cuda
 catkin build -j2 mppi_controller_cuda --cmake-args -DMPPI_BUILD_BENCHMARKS=ON
 # or, to change which rollout counts get built:
 catkin build -j2 mppi_controller_cuda --cmake-args -DMPPI_BUILD_BENCHMARKS=ON -DMPPI_BENCH_ROLLOUT_COUNTS="256;1024;4096"
