@@ -28,14 +28,18 @@ Run the example with [turtlebot3](https://github.com/datledoan/turtlebot3)
 Benchmark with CPU version [mppi_controller_ros](https://github.com/datledoan/mppi_controller_ros).
 ![](media/benchmark.png)
 
-Real-run CPU usage while actually driving the robot in Gazebo (whole
-move_base_flex process, % of one core -- see
-[`benchmark/monitor_resource_usage.py`](benchmark/monitor_resource_usage.py)):
+Real-run `move_base_flex` CPU usage while navigating a goal in Gazebo
+(turtlebot3 burger), sampled with
+[`benchmark/run_live_cpu_test.sh`](benchmark/run_live_cpu_test.sh) (10s
+window, 0.2s interval, 5 runs x 50 samples each). Both sides run the same
+critic set/per-rollout compute cost, same `batch_size`/`controller_frequency`/goal/map:
 
-| Controller | CPU usage (of 1 core) |
-| --- | --- |
-| mppi_controller_ros (CPU) | ~29% |
-| mppi_controller_cuda (GPU) | ~22% |
+| Controller | CPU usage (of 1 core, mean ± std across 5 runs) |
+|---|---|
+| mppi_controller_ros (CPU) | 33.9% ± 0.6 |
+| mppi_controller_cuda (GPU) | 21.9% ± 0.2 |
+
+~35% less `move_base_flex` CPU load with the GPU plugin (RTX 2050).
 
 # Reference
 - [nav2_mppi_controller](https://github.com/ros-navigation/navigation2/tree/main/nav2_mppi_controller)

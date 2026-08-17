@@ -54,3 +54,10 @@ move_base_flex is really running:
 pgrep -x mbf_costmap_nav   # find the PID
 python3 src/mppi_controller_cuda/benchmark/monitor_resource_usage.py --pid <PID>
 ```
+or use `run_live_cpu_test.sh`, which sends a goal and starts monitoring
+together (move_base_flex must already be launched):
+
+```bash
+bash src/mppi_controller_cuda/benchmark/run_live_cpu_test.sh [goal_x] [goal_y] [duration] [interval]
+bash src/mppi_controller_cuda/benchmark/run_live_cpu_test.sh 1.8 1.5 10 0.2   # defaults shown
+```
