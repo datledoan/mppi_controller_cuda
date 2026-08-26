@@ -50,10 +50,10 @@ same critic set/per-rollout compute cost:
 
 | Controller | CPU usage (of 1 core, mean ± std across 5 runs) |
 |---|---|
-| nav2_mppi_controller (CPU) | 49.4% ± 1.4 |
-| mppi_controller_cuda (GPU) | 35.7% ± 0.7 |
+| nav2_mppi_controller (CPU) | 49.4% ± 0.6 |
+| mppi_controller_cuda (GPU) | 28.3% ± 0.5 |
 
-~28% less `controller_server` CPU load with the GPU plugin (RTX 2050).
+~43% less `controller_server` CPU load with the GPU plugin (RTX 2050).
 
 Per-call compute time (`Optimizer::evalControl()`/`Controller::computeControl()` -- see [`benchmark/`](benchmark/)), swept across `batch_size`/`time_steps`:
 
