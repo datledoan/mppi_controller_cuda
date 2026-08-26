@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(mppi_controller_cuda)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 add_compile_options(-O3)
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag("-mno-avx512f" COMPILER_SUPPORTS_AVX512)
