@@ -1,13 +1,14 @@
 #!/bin/bash
 # Usage:
-#   bash run_live_cpu_test.sh [goal_x] [goal_y] [duration] [interval]
-#   bash run_live_cpu_test.sh 1.8 1.5 8 0.2
+#   bash run_live_cpu_test.sh [goal_x] [goal_y] [duration] [interval] [warmup]
+#   bash run_live_cpu_test.sh 1.8 1.5 13 0.2 3
 set -e
 
 GOAL_X="${1:-1.8}"
 GOAL_Y="${2:-1.5}"
-DURATION="${3:-10}"
+DURATION="${3:-11}"
 INTERVAL="${4:-0.2}"
+WARMUP="${5:-1}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -24,5 +25,5 @@ rostopic pub -1 /move_base_simple/goal geometry_msgs/PoseStamped \
   "{header: {frame_id: 'map'}, pose: {position: {x: ${GOAL_X}, y: ${GOAL_Y}, z: 0.0}, orientation: {w: 1.0}}}" \
   > /dev/null
 
-echo "Monitoring PID $PID for ${DURATION}s (interval ${INTERVAL}s)..."
-python3 "$SCRIPT_DIR/monitor_resource_usage.py" --pid "$PID" --interval "$INTERVAL" --duration "$DURATION"
+echo "Monitoring PID $PID for ${DURATION}s (interval ${INTERVAL}s, ${WARMUP}s warmup excluded)..."
+python3 "$SCRIPT_DIR/monitor_resource_usage.py" --pid "$PID" --interval "$INTERVAL" --duration "$DURATION" --warmup "$WARMUP"

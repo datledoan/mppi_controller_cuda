@@ -68,6 +68,7 @@ def main():
     ap.add_argument("--name", default="mbf_costmap_nav", help="regex matched against process comm/cmdline")
     ap.add_argument("--interval", type=float, default=1.0, help="sampling interval, seconds (default 1.0)")
     ap.add_argument("--duration", type=float, default=None, help="stop after this many seconds (default: run until Ctrl+C)")
+    ap.add_argument("--warmup", type=float, default=0.0, help="seconds to sample+print but exclude from the summary (goal-accept/path-planning ramp-up before the controller is in steady navigation, default 0)")
     ap.add_argument("--gpu", action="store_true", help="also sample overall GPU utilization via nvidia-smi (whole-GPU, not per-process)")
     args = ap.parse_args()
 
@@ -94,14 +95,19 @@ def main():
             ticks = read_process_cpu_ticks(pid)
             cpu_pct = (ticks - prev_ticks) / CLK_TCK / (now - prev_wall) * 100.0
             prev_ticks, prev_wall = ticks, now
-            cpu_samples.append(cpu_pct)
+            in_warmup = (now - start) < args.warmup
+            if not in_warmup:
+                cpu_samples.append(cpu_pct)
 
             line = f"[{now - start:6.1f}s] cpu={cpu_pct:6.1f}% (of 1 core)"
             if args.gpu:
                 gpu_pct = read_gpu_util()
                 if gpu_pct is not None:
-                    gpu_samples.append(gpu_pct)
+                    if not in_warmup:
+                        gpu_samples.append(gpu_pct)
                     line += f"  gpu={gpu_pct:5.1f}%"
+            if in_warmup:
+                line += "  (warmup, excluded from summary)"
             print(line)
 
             if args.duration is not None and (now - start) >= args.duration:
