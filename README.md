@@ -4,6 +4,8 @@ CUDA-accelerated MPPI controller based on [nav2_mppi_controller](https://github.
 
 >For ROS1, see the [`noetic`](https://github.com/datledoan/mppi_controller_cuda/tree/noetic) branch.
 
+>For ROS2-Humble, see the [`humble`](https://github.com/datledoan/mppi_controller_cuda/tree/humble) branch.
+
 # Installation
 
 Requires an NVIDIA GPU + CUDA toolkit. Tested with ROS2 Jazzy, Ubuntu 24.04, CUDA 12.0, CPU AMD Ryzen 5 5500H (8 threads) + RTX 2050 (compute capability 8.6).
