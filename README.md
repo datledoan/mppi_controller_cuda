@@ -2,7 +2,9 @@
 
 CUDA version of [mppi_controller_ros](https://github.com/datledoan/mppi_controller_ros), a ROS1 port of [nav2_mppi_controller](https://github.com/ros-navigation/navigation2/tree/main/nav2_mppi_controller), based on the [MPPI-Generic](https://github.com/ACDSLab/MPPI-Generic). Applicable for both [move_base](http://wiki.ros.org/move_base) and [move_base_flex](http://wiki.ros.org/move_base_flex).
 
->For ROS2, see the [`jazzy`](https://github.com/datledoan/mppi_controller_cuda/tree/jazzy) branch.
+>For ROS2-Jazzy, see the [`jazzy`](https://github.com/datledoan/mppi_controller_cuda/tree/jazzy) branch.
+
+>For ROS2-Humble, see the [`humble`](https://github.com/datledoan/mppi_controller_cuda/tree/humble) branch.
 
 # Installation
 
